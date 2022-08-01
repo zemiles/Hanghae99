@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>운동갈지도</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- og 태그 -->
+    <meta property="og:title" content="운동갈지도" />
+    <meta
+      property="og:description"
+      content="하루 운동 하지말고 습관을 들여라"
+    />
+    <meta property="og:image" content="/static/image/og.png" />
+    <link rel="shortcut icon" href="/static/image/favicon.png" />
+    <link rel="icon" href="/static/image/favicon.png" />
+
+    <!-- 부트스트랩 css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- 구글폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dongle&family=Gothic+A1&family=Nanum+Gothic:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../static/css/register.css" />
+
+    <script>
+      function register() {
+        $.ajax({
+          type: 'POST',
+          url: '/api/register',
+          data: {
+            id_give: $('#userid').val().toLowerCase(),
+            pw_give: $('#userpw').val(),
+            pw_check_give: $('#userpw_check').val(),
+            nick_give: $('#usernickname').val(),
+            gender_give: $('#usergender').val(),
+          },
+          success: function (response) {
+            if (response['result'] == 'empty') {
+              alert(response['msg']);
+            } else if (response['result'] == 'pw_error') {
+              alert(response['msg']);
+            } else if (response['result'] == 'nickerror') {
+              alert(response['msg']);
+            } else if (response['result'] == 'fail') {
+              alert(response['msg']);
+            } else {
+              alert(response['msg']);
+              window.location.href = '/login';
+            }
+          },
+        });
+      }
+      function id_check() {
+        $.ajax({
+          type: 'POST',
+          url: '/api/register/id_check',
+          data: {
+            id_give: $('#userid').val().toLowerCase(),
+          },
+          success: function (response) {
+            console.log(response);
+            if (response['result'] == 'empty') {
+              alert(response['msg']);
+            } else if (response['result'] == 'fail') {
+              alert(response['msg']);
+            } else {
+              alert(response['msg']);
+            }
+          },
+        });
+      }
+      function nic_check() {
+        $.ajax({
+          type: 'POST',
+          url: '/api/register/nick_check',
+          data: {
+            nick_give: $('#usernickname').val().toLowerCase(),
+          },
+          success: function (response) {
+            console.log(response);
+            if (response['result'] == 'empty') {
+              alert(response['msg']);
+            } else if (response['result'] == 'fail') {
+              alert(response['msg']);
+            } else {
+              alert(response['msg']);
+            }
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="background">
+      <div class="wrap">
+        <div class="myreg">
+          <div class="titlebox">
+            <img src="../static/images/mainImg.png" alt="logo" />
+            <h1 class="titlename" id="realname">운동갈지도</h1>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="reg_id">ID</span>
+            <input
+              id="userid"
+              type="text"
+              class="form-control"
+              placeholder="ID를 소문자로 입력해주세요"
+              aria-label="ID를 입력하세요"
+              aria-describedby="basic-addon1"
+            />
+            <div class="id_check">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                onclick="id_check()"
+              >
+                중복 확인
+              </button>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="reg_pw">PW</span>
+            <input
+              id="userpw"
+              type="password"
+              class="form-control"
+              placeholder="PW를 입력하세요"
+              aria-label="ID를 입력하세요"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="reg_pw_again">PW</span>
+            <input
+              id="userpw_check"
+              type="password"
+              class="form-control"
+              placeholder="PW를 확인해주세요"
+              aria-label="ID를 입력하세요"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="reg_gender">Gender</span>
+            <select
+              id="usergender"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option selected>성별을 선택해주세요</option>
+              <option value="1">남자</option>
+              <option value="2">여자</option>
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="reg_nicname">nickname</span>
+            <input
+              id="usernickname"
+              type="adress"
+              class="form-control"
+              placeholder="닉네임을 입력하세요"
+              aria-label="ID를 입력하세요"
+              aria-describedby="basic-addon1"
+            />
+            <div class="id_check">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                onclick="nic_check()"
+              >
+                중복 확인
+              </button>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="registerbox">
+              <div class="registerbtn">
+                <button type="button" class="registerbtn" onclick="register()">
+                  회원 가입
+                </button>
+              </div>
+              <div class="register_cancel">
+                <button
+                  type="button"
+                  class="registerCancelBtn"
+                  onclick="window.location.href = '/login'"
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
